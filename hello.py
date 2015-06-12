@@ -11,6 +11,7 @@ from tornado import gen
 from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPError
 from datetime import datetime
 import re
+from apscheduler.schedulers.background import BackgroundScheduler
 
 css_regex = re.compile(r'http://.*\.css')
 js_regex = re.compile(r'http://.*\.js')
@@ -73,7 +74,10 @@ def async_parser_sohu():
 
 
 def main():
-    async_parser_sohu()
+    sched = BackgroundScheduler()
+    sched.start()
+    sched.add_job(async_parser_sohu, 'interval', seconds=60)
+
     tornado.options.parse_command_line()
     app = Application([
             url(r"/", MainHandler),
