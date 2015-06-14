@@ -1,3 +1,4 @@
+#!/usr/bin/env pyhton
 #coding:utf-8
 __author__ = "muye"
 
